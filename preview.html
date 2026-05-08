@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>りっくん♡通知</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:system-ui, sans-serif;
+}
+
+/* ===== 壁紙（ここだけ切り替える） ===== */
+
+/* パターン1：ピンク系グラデ */
+.bg1{
+    background:linear-gradient(135deg,#ffe4f0,#ffd1e8,#fff);
+}
+
+/* パターン2：青系 */
+.bg2{
+    background:linear-gradient(135deg,#d9f0ff,#f0f7ff,#ffffff);
+}
+
+/* パターン3：暗め */
+.bg3{
+    background:radial-gradient(circle at 30% 30%, #333, #000);
+}
+
+/* ===== ウィンドウ ===== */
+.window{
+    width:340px;
+    background:#ffffff;
+    border:1px solid #ff9fc6;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(255, 150, 190, 0.25);
+    position:absolute;
+    overflow:hidden;
+    animation:pop 0.15s ease;
+}
+
+.topbar{
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 10px;
+
+    background:linear-gradient(90deg, #ffe4f0, #fff);
+    border-bottom:1px solid #ffd0e5;
+
+    cursor:move;
+    user-select:none;
+}
+
+.title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:#ff5fa2;
+    font-weight:600;
+}
+
+.mark{
+    position:relative;
+    width:14px;
+    height:14px;
+}
+.mark::before{
+    content:"";
+    position:absolute;
+    width:14px;
+    height:14px;
+    border:2px solid #ff5fa2;
+    border-radius:50%;
+}
+.mark::after{
+    content:"♡";
+    position:absolute;
+    left:1px;
+    top:-2px;
+    font-size:10px;
+    color:#ff5fa2;
+}
+
+.close{
+    color:#ff7fb0;
+    cursor:pointer;
+    padding:4px 8px;
+    border-radius:8px;
+}
+.close:hover{
+    background:#ffe1ee;
+}
+
+.content{
+    padding:14px;
+    color:#555;
+    font-size:13px;
+}
+
+/* 出現 */
+@keyframes pop{
+    from{ transform:scale(0.85); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
+</style>
+</head>
+
+<!-- 👇 ここで壁紙を切り替え -->
+<body class="bg1">
+
+<script>
+
+function randomPos(){
+    return {
+        x: Math.random() * (window.innerWidth - 360),
+        y: Math.random() * (window.innerHeight - 220)
+    };
+}
+
+function enableDrag(win){
+    const bar = win.querySelector(".topbar");
+
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    bar.onmousedown = (e)=>{
+        dragging = true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+    };
+
+    document.onmousemove = (e)=>{
+        if(!dragging) return;
+        win.style.left = (e.clientX - offsetX) + "px";
+        win.style.top  = (e.clientY - offsetY) + "px";
+    };
+
+    document.onmouseup = ()=>{
+        dragging = false;
+    };
+}
+
+function createWindow(){
+
+    const pos = randomPos();
+
+    const win = document.createElement("div");
+    win.className = "window";
+
+    win.style.left = pos.x + "px";
+    win.style.top = pos.y + "px";
+
+    win.innerHTML = `
+        <div class="topbar">
+            <div class="title">
+                <div class="mark"></div>
+                りっくん♡通知
+            </div>
+            <div class="close">✕</div>
+        </div>
+
+        <div class="content">
+            りっくん♡を検知しました
+        </div>
+    `;
+
+    document.body.appendChild(win);
+
+    enableDrag(win);
+
+    win.querySelector(".close").onclick = () => {
+        createWindow();
+    };
+}
+
+createWindow();
+
+</script>
+
+</body>
+</html>
