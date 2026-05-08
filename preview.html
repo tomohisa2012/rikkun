@@ -9,26 +9,14 @@ body{
     margin:0;
     overflow:hidden;
     font-family:system-ui, sans-serif;
+
+    /* ⭐ 固定壁紙（ここで決め打ち） */
+    background-image:url("bg1.png");
+    background-size:cover;
+    background-position:center;
 }
 
-/* ===== 壁紙（ここだけ切り替える） ===== */
-
-/* パターン1：ピンク系グラデ */
-.bg1{
-    background:linear-gradient(135deg,#ffe4f0,#ffd1e8,#fff);
-}
-
-/* パターン2：青系 */
-.bg2{
-    background:linear-gradient(135deg,#d9f0ff,#f0f7ff,#ffffff);
-}
-
-/* パターン3：暗め */
-.bg3{
-    background:radial-gradient(circle at 30% 30%, #333, #000);
-}
-
-/* ===== ウィンドウ ===== */
+/* ウィンドウ */
 .window{
     width:340px;
     background:#ffffff;
@@ -40,6 +28,7 @@ body{
     animation:pop 0.15s ease;
 }
 
+/* 上バー */
 .topbar{
     height:40px;
     display:flex;
@@ -54,6 +43,7 @@ body{
     user-select:none;
 }
 
+/* タイトル */
 .title{
     display:flex;
     align-items:center;
@@ -63,6 +53,7 @@ body{
     font-weight:600;
 }
 
+/* ◯♡ */
 .mark{
     position:relative;
     width:14px;
@@ -85,6 +76,7 @@ body{
     color:#ff5fa2;
 }
 
+/* × */
 .close{
     color:#ff7fb0;
     cursor:pointer;
@@ -95,13 +87,14 @@ body{
     background:#ffe1ee;
 }
 
+/* 本文 */
 .content{
     padding:14px;
     color:#555;
     font-size:13px;
 }
 
-/* 出現 */
+/* アニメ */
 @keyframes pop{
     from{ transform:scale(0.85); opacity:0; }
     to{ transform:scale(1); opacity:1; }
@@ -109,8 +102,7 @@ body{
 </style>
 </head>
 
-<!-- 👇 ここで壁紙を切り替え -->
-<body class="bg1">
+<body>
 
 <script>
 
