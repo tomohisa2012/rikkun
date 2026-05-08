@@ -5,8 +5,6 @@
 <title>りっくん♡通知</title>
 
 <style>
-
-/* ⭐ 超重要：これでズレ系全部潰す */
 html, body{
     margin:0;
     padding:0;
@@ -15,16 +13,13 @@ html, body{
     overflow:hidden;
 }
 
-/* 背景 */
 body{
     font-family:system-ui, sans-serif;
 
-    background-image:url("bg.jpg"); /* ←ここだけ変更 */
+    background-image:url("bg.jpg"); /* ←ここ固定画像 */
     background-size:cover;
-    background-position:center center;
+    background-position:center;
     background-repeat:no-repeat;
-
-    background-color:#fff; /* 画像読み込み失敗時用 */
 }
 
 /* ウィンドウ */
@@ -37,7 +32,6 @@ body{
 
     position:absolute;
     overflow:hidden;
-    animation:pop 0.15s ease;
 }
 
 /* 上バー */
@@ -65,7 +59,6 @@ body{
     font-weight:600;
 }
 
-/* ◯♡ */
 .mark{
     position:relative;
     width:14px;
@@ -88,7 +81,6 @@ body{
     color:#ff5fa2;
 }
 
-/* × */
 .close{
     color:#ff7fb0;
     cursor:pointer;
@@ -99,17 +91,10 @@ body{
     background:#ffe1ee;
 }
 
-/* 本文 */
 .content{
     padding:14px;
     color:#555;
     font-size:13px;
-}
-
-/* アニメ */
-@keyframes pop{
-    from{ transform:scale(0.85); opacity:0; }
-    to{ transform:scale(1); opacity:1; }
 }
 
 </style>
@@ -119,10 +104,15 @@ body{
 
 <script>
 
-function randomPos(){
+/* ⭐ 正確なランダム配置（ここが修正ポイント） */
+function randomPos(winWidth, winHeight){
+
+    const maxX = window.innerWidth - winWidth;
+    const maxY = window.innerHeight - winHeight;
+
     return {
-        x: Math.random() * (window.innerWidth - 360),
-        y: Math.random() * (window.innerHeight - 220)
+        x: Math.random() * maxX,
+        y: Math.random() * maxY
     };
 }
 
@@ -151,14 +141,17 @@ function enableDrag(win){
     };
 }
 
-/* ウィンドウ生成 */
 function createWindow(){
 
-    const pos = randomPos();
+    const winWidth = 340;
+    const winHeight = 140; // だいたいの高さ
+
+    const pos = randomPos(winWidth, winHeight);
 
     const win = document.createElement("div");
     win.className = "window";
 
+    win.style.width = winWidth + "px";
     win.style.left = pos.x + "px";
     win.style.top = pos.y + "px";
 
@@ -185,7 +178,7 @@ function createWindow(){
     };
 }
 
-/* 初期起動 */
+/* 初期 */
 createWindow();
 
 </script>
