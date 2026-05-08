@@ -16,7 +16,7 @@ html, body{
 body{
     font-family:system-ui, sans-serif;
 
-    background-image:url("bg.jpg"); /* ←ここ固定画像 */
+    background-image:url("bg.jpg");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -31,7 +31,6 @@ body{
     box-shadow:0 10px 25px rgba(255, 150, 190, 0.25);
 
     position:absolute;
-    overflow:hidden;
 }
 
 /* 上バー */
@@ -49,7 +48,6 @@ body{
     user-select:none;
 }
 
-/* タイトル */
 .title{
     display:flex;
     align-items:center;
@@ -104,19 +102,19 @@ body{
 
 <script>
 
-/* ⭐ 正確なランダム配置（ここが修正ポイント） */
-function randomPos(winWidth, winHeight){
+function randomPos(win){
 
-    const maxX = window.innerWidth - winWidth;
-    const maxY = window.innerHeight - winHeight;
+    const rect = win.getBoundingClientRect();
+
+    const maxX = window.innerWidth - rect.width;
+    const maxY = window.innerHeight - rect.height;
 
     return {
-        x: Math.random() * maxX,
-        y: Math.random() * maxY
+        x: Math.random() * Math.max(0, maxX),
+        y: Math.random() * Math.max(0, maxY)
     };
 }
 
-/* ドラッグ */
 function enableDrag(win){
     const bar = win.querySelector(".topbar");
 
@@ -143,17 +141,8 @@ function enableDrag(win){
 
 function createWindow(){
 
-    const winWidth = 340;
-    const winHeight = 140; // だいたいの高さ
-
-    const pos = randomPos(winWidth, winHeight);
-
     const win = document.createElement("div");
     win.className = "window";
-
-    win.style.width = winWidth + "px";
-    win.style.left = pos.x + "px";
-    win.style.top = pos.y + "px";
 
     win.innerHTML = `
         <div class="topbar">
@@ -171,6 +160,11 @@ function createWindow(){
 
     document.body.appendChild(win);
 
+    /* ←ここが重要：追加してから位置決定 */
+    const pos = randomPos(win);
+    win.style.left = pos.x + "px";
+    win.style.top = pos.y + "px";
+
     enableDrag(win);
 
     win.querySelector(".close").onclick = () => {
@@ -178,7 +172,6 @@ function createWindow(){
     };
 }
 
-/* 初期 */
 createWindow();
 
 </script>
