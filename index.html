@@ -5,17 +5,26 @@
 <title>りっくん♡通知</title>
 
 <style>
-body{
-    margin:0;
-    overflow:hidden;
 
-    background-image:url("bg1.png");
+/* ⭐ 超重要：これでズレ系全部潰す */
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+/* 背景 */
+body{
+    font-family:system-ui, sans-serif;
+
+    background-image:url("bg.jpg"); /* ←ここだけ変更 */
     background-size:cover;
     background-position:center center;
     background-repeat:no-repeat;
 
-    width:100vw;
-    height:100vh;
+    background-color:#fff; /* 画像読み込み失敗時用 */
 }
 
 /* ウィンドウ */
@@ -25,6 +34,7 @@ body{
     border:1px solid #ff9fc6;
     border-radius:14px;
     box-shadow:0 10px 25px rgba(255, 150, 190, 0.25);
+
     position:absolute;
     overflow:hidden;
     animation:pop 0.15s ease;
@@ -101,6 +111,7 @@ body{
     from{ transform:scale(0.85); opacity:0; }
     to{ transform:scale(1); opacity:1; }
 }
+
 </style>
 </head>
 
@@ -115,6 +126,7 @@ function randomPos(){
     };
 }
 
+/* ドラッグ */
 function enableDrag(win){
     const bar = win.querySelector(".topbar");
 
@@ -139,6 +151,7 @@ function enableDrag(win){
     };
 }
 
+/* ウィンドウ生成 */
 function createWindow(){
 
     const pos = randomPos();
@@ -172,6 +185,7 @@ function createWindow(){
     };
 }
 
+/* 初期起動 */
 createWindow();
 
 </script>
