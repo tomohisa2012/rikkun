@@ -11,35 +11,34 @@ html, body{
     width:100%;
     height:100%;
     overflow:hidden;
+    font-family:system-ui, sans-serif;
 }
 
 body{
-    font-family:system-ui, sans-serif;
-
     background-image:url("bg.jpg");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
 }
 
-/* ウィンドウ */
+/* ⭐ タブ（大きくした） */
 .window{
-    width:340px;
+    width:420px;   /* ←拡大 */
     background:#ffffff;
     border:1px solid #ff9fc6;
-    border-radius:14px;
-    box-shadow:0 10px 25px rgba(255, 150, 190, 0.25);
+    border-radius:16px;
+    box-shadow:0 12px 30px rgba(255, 150, 190, 0.3);
 
     position:absolute;
 }
 
 /* 上バー */
 .topbar{
-    height:40px;
+    height:52px;   /* ←拡大 */
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 10px;
+    padding:0 14px;
 
     background:linear-gradient(90deg, #ffe4f0, #fff);
     border-bottom:1px solid #ffd0e5;
@@ -48,53 +47,63 @@ body{
     user-select:none;
 }
 
+/* タイトル */
 .title{
     display:flex;
     align-items:center;
-    gap:8px;
-    font-size:13px;
+    gap:10px;
+    font-size:15px;  /* ←少し大きく */
     color:#ff5fa2;
-    font-weight:600;
+    font-weight:700;
 }
 
+/* ◯♡ */
 .mark{
     position:relative;
-    width:14px;
-    height:14px;
+    width:16px;
+    height:16px;
 }
 .mark::before{
     content:"";
     position:absolute;
-    width:14px;
-    height:14px;
+    width:16px;
+    height:16px;
     border:2px solid #ff5fa2;
     border-radius:50%;
 }
 .mark::after{
     content:"♡";
     position:absolute;
-    left:1px;
+    left:2px;
     top:-2px;
-    font-size:10px;
+    font-size:11px;
     color:#ff5fa2;
 }
 
+/* × */
 .close{
     color:#ff7fb0;
     cursor:pointer;
-    padding:4px 8px;
+    padding:6px 10px;
     border-radius:8px;
+    font-size:16px;
 }
 .close:hover{
     background:#ffe1ee;
 }
 
+/* 本文 */
 .content{
-    padding:14px;
+    padding:16px;
     color:#555;
-    font-size:13px;
+    font-size:14px;
 }
 
+/* 出現 */
+@keyframes pop{
+    from{ transform:scale(0.85); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
 </style>
 </head>
 
@@ -102,8 +111,8 @@ body{
 
 <script>
 
+/* ランダム位置（サイズ対応） */
 function randomPos(win){
-
     const rect = win.getBoundingClientRect();
 
     const maxX = window.innerWidth - rect.width;
@@ -115,6 +124,7 @@ function randomPos(win){
     };
 }
 
+/* ⭐ ここが重要：全タブに確実にドラッグ付与 */
 function enableDrag(win){
     const bar = win.querySelector(".topbar");
 
@@ -128,15 +138,15 @@ function enableDrag(win){
         offsetY = e.clientY - win.offsetTop;
     };
 
-    document.onmousemove = (e)=>{
+    document.addEventListener("mousemove", (e)=>{
         if(!dragging) return;
         win.style.left = (e.clientX - offsetX) + "px";
         win.style.top  = (e.clientY - offsetY) + "px";
-    };
+    });
 
-    document.onmouseup = ()=>{
+    document.addEventListener("mouseup", ()=>{
         dragging = false;
-    };
+    });
 }
 
 function createWindow(){
@@ -160,7 +170,7 @@ function createWindow(){
 
     document.body.appendChild(win);
 
-    /* ←ここが重要：追加してから位置決定 */
+    /* サイズ確定後に位置決定 */
     const pos = randomPos(win);
     win.style.left = pos.x + "px";
     win.style.top = pos.y + "px";
@@ -172,6 +182,7 @@ function createWindow(){
     };
 }
 
+/* 初期 */
 createWindow();
 
 </script>
